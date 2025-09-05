@@ -1,0 +1,222 @@
+# UOFC Funding Transparency Report Configuration
+# ================================================
+# This configuration file defines column mappings, branding, and chart settings.
+# Column aliases allow flexibility in Excel column naming conventions.
+
+# Branding Configuration
+branding:
+  organization_name: "Yale Undergraduate Organizations Funding Committee"
+  short_name: "UOFC"
+  website_url: "ycc.yale.edu/uofc"
+  logo_path: "assets/uofcsubtitle.png"
+  primary_color: "#00356B"  # Yale Blue
+  secondary_color: "#4A90D9"
+  accent_color: "#F2A900"
+
+# Sheet Configuration
+sheets:
+  # Pattern for round decision sheets: "Round {N} Decision for Analysis"
+  round_decision_pattern: "Round {round_number} Decision for Analysis"
+  overview_sheet: "Overview"
+
+# Column Mappings with Aliases
+# Each canonical column name maps to a list of acceptable aliases (case-insensitive)
+column_aliases:
+  # Core organization identification
+  organization_name:
+    - "Organization Name"
+    - "Org Name"
+    - "Name"
+  
+  organization_category:
+    - "Organization Category"
+    - "Category"
+    - "Org Category"
+    - "Type"
+  
+  organization_age:
+    - "Organization Age"
+    - "Org Age"
+    - "Age"
+    - "Years Active"
+  
+  # Membership metrics
+  active_members:
+    - "Number of Active Members"
+    - "Active Members"
+    - "Members"
+    - "Member Count"
+  
+  panlist_size:
+    - "Size of Panlist"
+    - "Panlist Size"
+    - "Panlist"
+    - "Mailing List Size"
+  
+  # Dwight Hall affiliation (Yale-specific)
+  dwight_hall:
+    - "Dwight Hall Group?"
+    - "Is your organization a Dwight Hall group? (member or provisional, but not outreach group)"
+    - "Is your organization a Dwight Hall group?"
+    - "Dwight Hall"
+    - "DH Group"
+  
+  # Financial data
+  current_funds:
+    - "Current Funds Available"
+    - "Current Funds"
+    - "Available Funds"
+    - "Funds Available"
+  
+  estimated_income:
+    - "Estimated Annual Income for 2024-2025"
+    - "Estimated Annual Income"
+    - "Annual Income"
+    - "Estimated Income"
+  
+  amount_requested:
+    - "Amount Requested"
+    - "Requested"
+    - "Request Amount"
+    - "Funding Requested"
+  
+  amount_awarded:
+    - "Amount Awarded"
+    - "Awarded"
+    - "Award Amount"
+    - "Funding Awarded"
+  
+  funding_ratio:
+    - "Funding Ratio"
+    - "Ratio"
+    - "Award Ratio"
+  
+  other_funding:
+    - "Other Funding Sources"
+    - "Other Funding"
+    - "Additional Funding"
+    - "External Funding"
+  
+  # Optional columns (may not exist in all sheets)
+  last_round_amount:
+    - "Last Round $"
+    - "Last Round"
+    - "Previous Round"
+  
+  expense_sheet:
+    - "Expense Sheet"
+    - "Expenses"
+    - "Budget Link"
+
+# Overview sheet columns
+overview_columns:
+  metric_name:
+    - ""  # First column often unnamed
+    - "Unnamed: 0"
+    - "Metric"
+  
+  previous_year:
+    - "2023-2024"
+    - "Previous Year"
+    - "Last Year"
+  
+  current_year:
+    - "2024-2025"
+    - "Current Year"
+    - "This Year"
+  
+  comparison:
+    - "Comparison"
+    - "Diff"
+    - "Change"
+  
+  percentage:
+    - "Percentage"
+    - "Percent"
+    - "% Change"
+
+# Chart Configuration
+charts:
+  # Color palettes for different chart types
+  palettes:
+    categorical: "tab10"
+    sequential: "Blues"
+    diverging: "RdYlGn"
+    paired: "Paired"
+  
+  # Default figure sizes (width, height in inches)
+  figure_sizes:
+    pie_chart: [8, 8]
+    bar_chart: [10, 6]
+    grouped_bar: [12, 6]
+    table: [8, 4]
+  
+  # DPI for saved images
+  dpi: 300
+  
+  # Font sizes
+  fonts:
+    title: 16
+    axis_label: 12
+    tick_label: 10
+    legend: 10
+
+# Slide Configuration
+slides:
+  width_inches: 10
+  height_inches: 7.5
+  
+  # Layout positions (left, top, width, height in inches)
+  positions:
+    full_chart: [1.0, 1.0, 8.0, 6.0]
+    split_chart: [0.5, 1.0, 6.2, 6.0]
+    split_table: [6.7, 1.0, 2.8, 6.0]
+    pie_left: [0.5, 1.0, 4.5, 5.0]
+    bar_right: [5.0, 1.0, 4.5, 5.0]
+    table_left: [0.5, 5.2, 4.5, 2.0]
+    table_right: [5.0, 5.2, 4.5, 2.0]
+    centered_table: [2.75, 5.2, 4.5, 2.0]
+    header_logo: [8.0, 6.5, 2.0, 1.0]
+    title: [0.5, 0.2, 9.0, 0.5]
+
+# Validation Settings
+validation:
+  # Required columns (canonical names) - report fails without these
+  required_columns:
+    - organization_name
+    - organization_category
+    - amount_requested
+    - amount_awarded
+  
+  # Optional columns - warnings if missing, but continues
+  optional_columns:
+    - organization_age
+    - active_members
+    - panlist_size
+    - dwight_hall
+    - current_funds
+    - estimated_income
+    - other_funding
+    - funding_ratio
+  
+  # Minimum rows required in round decision sheet
+  min_rows: 1
+  
+  # Maximum percentage of missing values allowed per column
+  max_missing_percent: 50
+
+# Google API Configuration (for expense sheet integration)
+# Note: This feature requires additional setup. See README for instructions.
+google_api:
+  enabled: false
+  credentials_path: "credentials.json"
+  token_path: "token.json"
+  scopes:
+    - "https://www.googleapis.com/auth/spreadsheets.readonly"
+    - "https://www.googleapis.com/auth/drive.readonly"
+
+# Logging Configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  format: "rich"  # "rich" for colored console, "plain" for simple text
+  file: null  # Set to filename to enable file logging
