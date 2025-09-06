@@ -60,3 +60,6 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Working notes
+.yc-polish/
