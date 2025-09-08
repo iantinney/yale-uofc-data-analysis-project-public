@@ -36,8 +36,8 @@ uofc-report validate ExampleFundingSheet.xlsx
 ### From Source
 
 ```bash
-git clone https://github.com/yourusername/uofc-funding-transparency.git
-cd uofc-funding-transparency
+git clone https://github.com/iantinney/yale-uofc-data-analysis-project-public.git
+cd yale-uofc-data-analysis-project-public
 pip install -e .
 ```
 
@@ -251,8 +251,8 @@ Without Google API configured, the system generates mock expense data demonstrat
 
 ```bash
 # Clone and install with dev dependencies
-git clone https://github.com/yourusername/uofc-funding-transparency.git
-cd uofc-funding-transparency
+git clone https://github.com/iantinney/yale-uofc-data-analysis-project-public.git
+cd yale-uofc-data-analysis-project-public
 pip install -e ".[dev]"
 ```
 

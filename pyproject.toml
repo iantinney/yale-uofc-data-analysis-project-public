@@ -10,7 +10,10 @@ readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.10"
 authors = [
-    { name = "Yale UOF Committee" }
+    { name = "Ian Tinney" }
+]
+maintainers = [
+    { name = "Ian Tinney" }
 ]
 keywords = ["funding", "transparency", "powerpoint", "data-visualization", "yale"]
 classifiers = [
