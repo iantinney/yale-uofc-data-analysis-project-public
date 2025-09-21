@@ -122,3 +122,45 @@ class TestLoadResult:
         )
 
         assert not result.has_errors
+
+
+class TestColumnAliasResolution:
+    """Tests for the column alias resolver in Config.
+
+    Real committee spreadsheets contain typos, casing drift, and verbose
+    question-form headers. The resolver must accept all of these.
+    """
+
+    def test_case_insensitive_exact_match(self, config: Config) -> None:
+        """Alias matching ignores case differences."""
+        available = ["ORGANIZATION NAME", "Amount Requested", "amount awarded"]
+        resolved = config.resolve_column("organization_name", available)
+        assert resolved == "ORGANIZATION NAME"
+
+    def test_prefix_match_for_verbose_header(self, config: Config) -> None:
+        """Long question-form headers match via prefix."""
+        # Committee sheets sometimes append clarifying text to the question.
+        available = [
+            "Is your organization a Dwight Hall group? (yes/no, see policy doc)",
+        ]
+        resolved = config.resolve_column("dwight_hall", available)
+        assert resolved == available[0]
+
+    def test_missing_alias_returns_none(self, config: Config) -> None:
+        """Unknown column name resolves to None (caller decides severity)."""
+        available = ["Totally Unrelated Column"]
+        resolved = config.resolve_column("organization_name", available)
+        assert resolved is None
+
+    def test_resolve_all_columns_separates_required_and_optional(
+        self, config: Config
+    ) -> None:
+        """resolve_all_columns reports required and optional misses separately."""
+        # A sheet missing the required "Amount Requested" column should land
+        # the column in missing_required, not missing_optional.
+        available = ["Organization Name", "Amount Awarded"]
+        _resolved, missing_required, missing_optional = config.resolve_all_columns(available)
+
+        assert "amount_requested" in missing_required
+        # Optional columns also absent must not be promoted to errors.
+        assert "amount_requested" not in missing_optional
