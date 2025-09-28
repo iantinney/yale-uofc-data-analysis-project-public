@@ -1,8 +1,19 @@
-"""
-Command-line interface for the UOFC Funding Transparency Report generator.
+"""CLI orchestrator built on Click + Rich.
 
-This module provides a rich CLI experience with colored output, progress
-tracking, and comprehensive logging.
+Two entry points:
+
+    uofc-report <excel_file> <round_number> [--config ...] [--output ...]
+        Full pipeline: load ▸ analyze ▸ render charts ▸ build deck.
+
+    uofc-report validate <excel_file>
+        Schema check only; reports column resolution and validation
+        warnings without generating any output.
+
+Rich is used for live progress bars, structured logging, and colored
+warning/error output. The CLI surfaces `ValidationWarning` records from
+the loader directly so committee members running the tool can see exactly
+which columns the alias resolver matched (`--show-mapping`) and which
+optional sections were skipped (`--verbose`).
 """
 
 from __future__ import annotations

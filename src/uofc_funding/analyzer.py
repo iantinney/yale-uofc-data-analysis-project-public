@@ -1,8 +1,22 @@
-"""
-Data analysis utilities.
+"""Defensive funding-data analytics.
 
-This module contains functions for analyzing funding data and computing
-statistics used in charts and tables.
+Consumes the normalized DataFrame from `loader` and produces a
+`FundingAnalysis` containing totals, ratios, and per-category / per-age
+/ per-Dwight-Hall breakdowns. Every section is guarded by a column-
+existence check, so partial data (warnings from the loader, not errors)
+yields a partial analysis rather than a crash.
+
+Defensive moves worth noting:
+
+* Divide-by-zero protection on `overall_funding_ratio` (no requested →
+  ratio stays at its dataclass default of 0.0).
+* Categorical normalization: Dwight Hall affiliation is matched against
+  the `other_funding` text column with case-insensitive substring search,
+  so "Dwight Hall", "dwight hall member", and "DWIGHT HALL provisional"
+  all count.
+* Currency / percentage / integer formatters return `str(value)` on
+  non-numeric input rather than raising; the overview-table renderer
+  walks every cell and must tolerate mixed types.
 """
 
 from __future__ import annotations

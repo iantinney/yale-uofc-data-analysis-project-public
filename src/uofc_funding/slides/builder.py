@@ -1,8 +1,15 @@
-"""
-PowerPoint presentation builder.
+"""PowerPoint presentation builder over python-pptx.
 
-This module handles the creation of PowerPoint presentations from
-generated charts and analysis data.
+Composes a branded transparency deck from a pre-rendered chart directory
+and a `FundingAnalysis`. Slide layout positions live in `layouts.py` as
+typed coordinate constants — no magic numbers inside the builder — so the
+deck can be retargeted to a different aspect ratio or brand template by
+swapping a layouts module.
+
+Each slide method (title, overview, category distribution, age groups,
+Dwight Hall, other funding, top organizations) is independent and
+conditionally invoked based on which analysis fields the analyzer
+populated. Missing data ⇒ slide is skipped; the final deck still renders.
 """
 
 from __future__ import annotations

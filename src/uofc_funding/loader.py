@@ -1,8 +1,21 @@
-"""
-Data loading and validation utilities.
+"""Excel ingestion with severity-tiered validation.
 
-This module handles loading Excel files, validating data quality,
-and normalizing column names using the configured aliases.
+Loads round-decision and overview sheets from a committee Excel workbook,
+resolves real-world column names against the configured alias table
+(case-insensitive exact and prefix matching), and emits a `LoadResult`
+carrying the normalized DataFrame alongside structured `ValidationWarning`
+records.
+
+Validation tiers:
+    error    — required column missing, sheet not found, file unreadable.
+               LoadResult.is_valid is False.
+    warning  — optional column missing, suspicious value (negative amounts,
+               duplicate organization names). Related visualizations are
+               skipped; the rest of the pipeline still produces a report.
+
+The "partial report on partial data" contract is deliberate: committee
+sheets routinely drop optional columns between rounds, and a half-complete
+deck is more useful than a hard failure.
 """
 
 from __future__ import annotations

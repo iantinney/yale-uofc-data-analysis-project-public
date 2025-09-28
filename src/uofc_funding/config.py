@@ -1,8 +1,16 @@
-"""
-Configuration models and loading utilities.
+"""Type-safe configuration layer.
 
-This module provides Pydantic models for validating configuration files
-and utilities for resolving column aliases to actual Excel column names.
+Pydantic models for branding, sheet patterns, column aliases, validation
+thresholds, and chart styling, loaded from YAML with multi-level fallback
+paths (CLI arg ▸ env var ▸ project default).
+
+The alias resolver — `Config.resolve_column` and `Config.resolve_all_columns`
+— centralizes all column-name knowledge in this module. Analyzer and chart
+code never references raw Excel column strings; they reference canonical
+names (`organization_name`, `amount_requested`, etc.), and the resolver
+matches them against actual headers via case-insensitive exact match first,
+then prefix match (so verbose question-form headers like "Is your
+organization a Dwight Hall group? (member or provisional...)" still resolve).
 """
 
 from __future__ import annotations

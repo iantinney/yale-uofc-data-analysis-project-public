@@ -1,12 +1,24 @@
-"""
-Google API integration for expense sheet access.
+"""Three-state Google Sheets client for linked expense data.
 
-This module provides integration with Google Sheets/Drive APIs to fetch
-expense data from linked Google documents. When Google API is not configured,
-it provides mock data for demonstration purposes.
+Operates in one of three modes, chosen at runtime based on credential
+availability:
 
-SETUP INSTRUCTIONS (for full functionality):
-============================================
+    1. Live API     OAuth2 credentials present → authenticated
+                    googleapiclient calls.
+    2. Mock         No credentials → deterministic mock data, seeded so
+                    repeated runs produce identical fixtures for demos
+                    and tests.
+    3. Degraded     Credentials present but a request fails → returns
+                    empty data with an explicit `ValidationWarning`,
+                    rather than raising into the report pipeline.
+
+The mock is a first-class implementation rather than a stub: it generates
+plausible category breakdowns, line items, and totals so the full
+loader → analyzer → charts → slides path runs end-to-end without external
+dependencies. This is what makes onboarding and CI cheap.
+
+SETUP INSTRUCTIONS (for live API mode):
+=======================================
 
 1. Go to https://console.cloud.google.com/
 2. Create a new project or select an existing one

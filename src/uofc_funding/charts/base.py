@@ -1,8 +1,13 @@
-"""
-Base chart utilities and abstract chart class.
+"""Abstract chart base + shared rendering utilities.
 
-This module provides common functionality for all chart generators,
-including styling, text wrapping, and file saving.
+`BaseChart` centralizes figure sizing, DPI, font sizing, and output
+file conventions so each concrete chart class (pie, bar, table) is a
+thin subclass over matplotlib / seaborn. Adding a new visualization
+means adding one file and registering it in `charts/__init__.py` —
+nothing else in the pipeline needs to change.
+
+Also exposes `wrap_text()` for committee category labels and
+`setup_style()` for consistent seaborn whitegrid styling across the deck.
 """
 
 from __future__ import annotations

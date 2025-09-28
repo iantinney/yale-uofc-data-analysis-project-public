@@ -152,9 +152,7 @@ class TestColumnAliasResolution:
         resolved = config.resolve_column("organization_name", available)
         assert resolved is None
 
-    def test_resolve_all_columns_separates_required_and_optional(
-        self, config: Config
-    ) -> None:
+    def test_resolve_all_columns_separates_required_and_optional(self, config: Config) -> None:
         """resolve_all_columns reports required and optional misses separately."""
         # A sheet missing the required "Amount Requested" column should land
         # the column in missing_required, not missing_optional.
