@@ -8,16 +8,16 @@ Config-driven pipeline that turns Yale's Undergraduate Organizations Funding Com
 
 ## Highlights
 
-- Led a team of 3 software engineers to build and ship this end-to-end
-- Replaces over 80% of the work-hours previously spent by 20+ analysts producing each round's public report
-- One Excel workbook in → full transparency deck out: charts, tables, year-over-year comparisons
+- Led a team of 3 software engineers to ship an end-to-end automation system for committee funding decisions
+- The full system — quantitative intake pipeline plus this reporting layer — replaces over 80% of work-hours that 20+ analysts previously spent across allocation review, decision support, and public reporting
+- This public repo is the reporting layer: one normalized funding workbook in → branded transparency deck out
 - 33 tests, 0 lint findings, clean separation across loader / analyzer / charts / slides
 
 ## What it does
 
-The funding committee makes hundreds of allocation decisions per round across a few dozen Excel columns whose names drift between rounds. Previously, 20+ analysts hand-built a branded PowerPoint summarizing each round for the student body. This tool collapses that work into one command: load the workbook, validate against a configurable schema, compute category / age-group / Dwight-Hall breakdowns, and emit a `.pptx` deck plus per-chart PNGs and CSVs.
+This repo is the public-facing reporting layer of a broader funding-automation workflow. An internal analytics pipeline (not open-sourced) does the upstream quantitative work — committee intake normalization, allocation analysis, exception flagging — and emits a structured Excel workbook of decisions. This tool consumes that workbook and produces the branded transparency report distributed to the student body. Together, the two halves replace over 80% of the analyst hours previously spent on each funding round.
 
-A single YAML config drives branding (colors, organization name, logo), sheet name patterns, column aliases (20+ canonical columns × multiple acceptable header strings each), and chart styling. The CLI exposes a `validate` subcommand for dry-run schema checks. Optional Google Sheets integration pulls linked expense data; absent credentials, a deterministic mock keeps the full pipeline runnable for demos and CI.
+On the reporting side specifically, this tool collapses what was a multi-day manual deck-build into one command: load the workbook, validate against a configurable schema, compute category / age-group / Dwight-Hall breakdowns, and emit a `.pptx` deck plus per-chart PNGs and CSVs. A single YAML config drives branding, sheet name patterns, and column aliases (20+ canonical columns × multiple acceptable header strings each). The CLI exposes a `validate` subcommand for dry-run schema checks. Optional Google Sheets integration pulls linked expense data; absent credentials, a deterministic mock keeps the full pipeline runnable for demos and CI.
 
 ## Technical notes
 
