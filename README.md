@@ -6,6 +6,8 @@
 
 Config-driven pipeline that turns Yale's Undergraduate Organizations Funding Committee (UOFC) decision spreadsheets into a branded PowerPoint transparency report. One YAML schema retargets the whole pipeline to other institutions.
 
+![UOFC funding transparency report — sample output](docs/hero.png)
+
 ## Highlights
 
 - Led a team of 3 software engineers to ship an end-to-end automation system for committee funding decisions
@@ -18,6 +20,10 @@ Config-driven pipeline that turns Yale's Undergraduate Organizations Funding Com
 This repo is the public-facing reporting layer of a broader funding-automation workflow. An internal analytics pipeline (not open-sourced) does the upstream quantitative work — committee intake normalization, allocation analysis, exception flagging — and emits a structured Excel workbook of decisions. This tool consumes that workbook and produces the branded transparency report distributed to the student body. Together, the two halves replace over 80% of the analyst hours previously spent on each funding round.
 
 On the reporting side specifically, this tool collapses what was a multi-day manual deck-build into one command: load the workbook, validate against a configurable schema, compute category / age-group / Dwight-Hall breakdowns, and emit a `.pptx` deck plus per-chart PNGs and CSVs. A single YAML config drives branding, sheet name patterns, and column aliases (20+ canonical columns × multiple acceptable header strings each). The CLI exposes a `validate` subcommand for dry-run schema checks. Optional Google Sheets integration pulls linked expense data; absent credentials, a deterministic mock keeps the full pipeline runnable for demos and CI.
+
+Year-over-year overview is rendered directly into the deck — same generator drives the table image, the per-chart PNGs, and the slide composition:
+
+![Year-over-year funding overview](docs/overview-table.png)
 
 ## Technical notes
 
